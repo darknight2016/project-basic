@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>倒计时时钟</title>
+	<style type="text/css">
+		/*reset*/
+		#clock{
+			box-sizing: border-box;
+			width: 300px;
+			height: 144px;
+			margin: 0 auto;
+			padding-top: 25px;
+			text-align: center;
+			color: #fff;
+			background-color: #1a1a1a;
+		}
+		#clock span{
+			display: inline-block;
+			width: 36px;
+			height: 16px;
+			margin: 0 12px;
+			border: 2px solid #ccc;
+			color: #000;
+			background-color: #fff;
+		}
+		button{
+			width: 280px;
+			height: 50px;
+			font-size: 20px;
+			color: #fff;
+			border-radius: 10px;
+		}
+		/*开始结束状态*/
+		.ready{
+			background-color: green;
+		}
+		.ready:before{
+			content: '启动';
+		}
+		.go{
+			background-color: red;
+		}
+		.go:before{
+			content: '停止';
+		}
+	</style>
+</head>
+<body>
+	<div id="clock">
+		<p><span id="minutes"></span>分钟<span id="second"></span>秒</p>
+		<button class="ready"></button>
+		<!-- 按钮可以使用图片做 -->
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var time = {
+				m: 1,
+				s: 40
+			};			
+			showTime(time);
+
+			var button = document.getElementsByTagName('button')[0];
+			(function(){
+				var onOff = false;
+				var timer = null;
+
+				button.onclick = function(){					
+					if(onOff){
+						this.className = 'ready';
+						onOff = false;
+						clearInterval(timer);
+					}else{
+						this.className = 'go';
+						onOff = true;
+						timer = setInterval(function(){
+							if(time.s > 0){
+								time.s -= 1;
+							}else{
+								if(time.m > 0){
+									time.s = 60;
+									time.m -= 1;
+								}
+							}
+							showTime(time);
+						},1000);
+					}
+				};
+			})();
+		};
+
+		function showTime(time){
+			var minutes = document.getElementById('minutes');
+			var second = document.getElementById('second');
+
+			// minutes.innerHTML = time.m;
+			// second.innerHTML = time.s;
+			minutes.innerHTML = format(time.m);
+			console.log(format(time.m));
+			second.innerHTML = format(time.s);
+		}
+
+		function format(x){
+			var _x = x.toString();
+			return _x.replace(/^(\d)$/,'0$1');
+		}
+
+
+		// 类型转换 + 加上字符串，就成了连接符，其他的数学运算符号都会带转换成数字的功能
+		// 转换成数字的方法Number(),*-/等都会默认转换成数字，parseInt，parseFloat
+		// 转换成字符串toString，'' + 其他的
+		// 三元运算符可以简化条件语句
+	</script>
+</body>
+</html>

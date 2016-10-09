@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>评分系统</title>
+	<style type="text/css">
+		/*reset.css*/
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		li{
+			list-style-type: none;
+		}
+		/*star*/
+		#star{
+			position: relative;
+			width: 600px;
+			margin: 10 auto;			
+		}
+		#star ul,
+		#star span{
+			float: left;
+			display: inline;
+			height: 19px;
+			line-height: 19px;
+		}
+		#star ul{
+			margin: 0 10px;
+		}
+		#star li{
+			float: left;
+			width: 24px;
+			cursor: pointer;
+			text-indent: -9999px;
+			background: url(imgs/star.png) no-repeat;
+		}
+		#star strong{
+			color: #f60;
+			padding-left: 10px;
+		}
+		#star li.on{
+			background-position: 0 -28px;
+		}
+		#star p{
+			position: absolute;
+			top: 20px;
+			width: 159px;
+			height: 60px;
+			display: none;
+			background: url(imgs/icon.gif) no-repeat;
+			padding: 7px 10px 0;
+		}
+		#star p em{
+			color: #f60;
+			display: block;
+			font-style: normal;
+		}
+	</style>
+
+</head>
+<body>
+	<div id="star">
+		<span>杨志鹏有多帅？</span>
+		<ul>
+			<li><a href="javascript:;">1</a></li>
+			<li><a href="javascript:;">2</a></li>
+			<li><a href="javascript:;">3</a></li>
+			<li><a href="javascript:;">4</a></li>
+			<li><a href="javascript:;">5</a></li>
+
+			<!-- 思路，五角星使用背景图片，文字缩进，溢出隐藏 -->
+			<!-- 也可以使用图标字体 -->
+		</ul>
+		<span></span>
+		<p></p>
+		<!--
+		<div id="comment">
+			<div class="star1"><span>1星</span>一般帅！</div>
+			<div class="star2"><span>2星</span>比较帅！！</div>
+			<div class="star3"><span>3星</span>非常帅！！！</div>
+			<div class="star4"><span>4星</span>超级帅！！！！</div>
+			<div class="star5"><span>5星</span>帅的太离谱了！！！！！</div>
+		</div>
+		<p id="text">aaa</p>
+		-->
+	</div>
+
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var oStar = document.getElementById('star');
+			var aLi = oStar.getElementsByTagName('li');
+			var oUl = oStar.getElementsByTagName('ul')[0];
+			var oSpan = oStar.getElementsByTagName('span')[1];
+			var oP = oStar.getElementsByTagName('p')[0];
+			var i = iScore = iStar = 0;
+
+			var aMsg = [
+				'一级|一般帅！',
+				'二级|比较帅！！',
+				'三级|非常帅！！！',
+				'四级|超级帅！！！！',
+				'五级|帅的太离谱了！！！！！'
+			];
+
+			for(i = 0;i < aLi.length;i++){
+				aLi[i].index = i;
+				// console.log(i);
+				aLi[i].onmouseover = function(){
+					showStar(this.index + 1);					
+					oP.style.display = 'block';
+					oP.style.left = oUl.offsetLeft + (this.index + 1) * this.offsetWidth - 104 + 'px';
+					oP.innerHTML = '<em><b>' + aMsg[this.index].match(/(.+)\|/)[1] + '</em></b>';
+				};
+
+				aLi[i].onmouseout = function(){
+					oP.style.display = 'none';
+					showStar();
+				};
+
+				aLi[i].onclick = function(){
+					iStar = this.index + 1;
+					oSpan.innerHTML = '<strong>' + (this.index + 1) + '星</strong>' + aMsg[this.index].match(/\|(.+)/)[1];
+					showStar(iStar);
+				};
+			}
+
+			function showStar(index){
+				iScore = index || iStar;
+				// 原思路，遍历到index就ok，可是要全部遍历
+				for(var i = 0; i < aLi.length;i++){
+					aLi[i].className = i < iScore ? 'on' : '';
+				}
+			}
+		};
+	</script>
+</body>
+</html>

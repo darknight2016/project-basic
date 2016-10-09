@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>图片列表：鼠标移入/移出改变图片透明度</title>
+	<style type="text/css">
+		/*reset*/
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		ul{
+			list-style: none;
+		}
+		
+		/*list style*/
+		#box{
+			width: 710px;
+			height: 290px;
+			margin: 0 auto;
+			padding: 0;
+			border: 1px solid #000;
+			/*为了解除inlin-block的bug*/
+			/*还有就是标签之间不能有空格，包括换行*/
+			font-size: 0;
+		}
+		#imgList{
+			padding: 5px;
+		}
+		#imgList li{
+			/*使用块元素成为行排列，inline-block或者float*/
+			display: inline-block;
+			box-sizing: border-box;
+			width: 130px;
+			height: 130px;
+			margin: 5px;
+			border: 1px solid #000;
+		}
+		#imgList li img{
+			width: 100%;
+			height: 100%;
+			opacity: 0.5;
+			/*鼠标形态属性*/
+			cursor: pointer;
+		}
+
+		/*当前图片*/
+		#imgList .current{
+			width: 90%;
+			height: 90%;
+			opacity: 1;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<ul id="imgList">
+			<li><img src="imgs/heart.jpg"></li>
+			<li><img src="imgs/heart.jpg"></li>
+			<li><img src="imgs/heart.jpg"></li>
+			<li><img src="imgs/heart.jpg"></li>
+			<li><img src="imgs/heart.jpg"></li>
+			<li><img src="imgs/heart.jpg"></li>
+			<li><img src="imgs/heart.jpg"></li>
+			<li><img src="imgs/heart.jpg"></li>
+			<li><img src="imgs/heart.jpg"></li>
+			<li><img src="imgs/heart.jpg"></li>
+		</ul>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var box = document.getElementById('box');
+			var imgList = document.getElementById('imgList');
+			var imgs = imgList.getElementsByTagName('img');
+
+			// 遍历本元素操作这个可以使用this，对应元素操作可以使用闭包，或者变量保存
+			for(var i = 0;i < imgs.length;i++){
+				imgs[i].onmouseover = function(){
+					// imgs[i].style.opacity = 0.5;
+					// alert(this);
+					this.style.opacity = 1;
+				};
+				imgs[i].onmouseout = function(){
+					this.style.opacity = 0.5;
+				}
+			}
+
+			// 闭包的方法实现
+			// 下面将覆盖上面的事件
+			for(var i = 0;i < imgs.length;i++){
+				(function(index){
+					imgs[index].onmouseout = function(){
+						imgs[index].style.transform = 'rotate(15deg)';
+					};
+					imgs[index].onmouseover = function(){
+						imgs[index].style.transform = 'rotate(0deg)';
+					}
+				})(i);
+			}
+
+			// 通过改变元素的class实现
+			for(var i = 0;i < imgs.length;i++){
+				(function(){
+					var _i = i;
+					console.log(_i);
+					imgs[_i].onmouseover = function(){
+						imgs[_i].className = 'current';
+						console.log(_i);
+					}
+					imgs[_i].onmouseout = function(){
+						imgs[_i].className = '';
+					}
+				})();
+			}
+
+			// 也可以通过给元素添加自定义属性来存储数据
+			
+		};
+	</script>
+</body>
+</html>
