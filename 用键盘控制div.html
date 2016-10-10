@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>用键盘控制div</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+	</style>
+</head>
+<body>
+	<p id="instruct">
+		红色方块为键盘操作区域，您可以进行如下操作：<br>
+		上：↑ 下：↓ 左：← 右：→<br>
+		Ctrl + 1 : 背景变为绿色<br>
+		Ctrl + 2 : 背景变为黄色<br>
+		Ctrl + 3 : 背景变为蓝色<br>
+		Ctrl + ↑ : 放大<br>
+		Ctrl + ↓ : 缩小
+	</p>
+	<div id="box" style="position: absolute;width: 100px;height: 100px;background: red;"></div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var oBox = document.getElementById('box');
+			var colors = ['red','blue','yellow','green'];
+			var sBox = {
+				moveUp: false,
+				moveDown: false,
+				moveLeft: false,
+				moveRight: false,
+				top: 0,
+				left: 0,
+				size: 1,
+				color: 'red'
+			};
+
+			var timer = setInterval(function(){
+				if(sBox.moveUp){
+					sBox.top -= 10;
+				}else if(sBox.moveDown){
+					sBox.top += 10;
+				}else if(sBox.moveLeft){
+					sBox.left -= 10;
+				}else if(sBox.moveRight){
+					sBox.left += 10;
+				}
+
+				updateBox();
+			},100);
+
+			document.onkeydown = function(event){
+				var event = event || window.event;
+				var CtrlKey = event.ctrlKey;
+				if(CtrlKey){
+					switch(event.keyCode){
+						case 38:
+							sBox.size += 0.1;
+							break;
+						case 40:
+							sBox.size -= 0.1;
+							break;
+						case 49:
+							sBox.color = colors[0];
+							break;
+						case 50:
+							sBox.color = colors[1];
+							break;
+						case 51:
+							sBox.color = colors[2];
+							break;
+						case 52:
+							sBox.color = colors[3];
+							break;
+					}
+				}else{
+					switch(event.keyCode){
+						case 38:
+							sBox.moveUp = true;
+							break;
+						case 40:
+							sBox.moveDown = true;
+							break;
+						case 37:
+							sBox.moveLeft = true;
+							break;
+						case 39:
+							sBox.moveRight = true;
+							break;
+					}
+				}
+
+				return false;				
+			};
+
+			document.onkeyup =function(/*event*/){
+				// var event = event || window.event;
+				sBox.moveUp = false;
+				sBox.moveDown = false;
+				sBox.moveLeft = false;
+				sBox.moveRight = false;
+			}
+
+			function updateBox(){
+				// 仅仅检测了上和左的溢出
+				sBox.top <= 0 && (sBox.top = 0);
+				sBox.left <= 0 && (sBox.left = 0);
+				oBox.style.top = sBox.top - 100 * (sBox.size - 1)/2 + 'px';
+				oBox.style.left = sBox.left - 100 * (sBox.size - 1)/2 + 'px';
+				oBox.style.background = sBox.color;
+				oBox.style.width = 100*sBox.size + 'px';
+				oBox.style.height = 100*sBox.size + 'px';
+			}
+		};
+	</script>
+</body>
+</html>
