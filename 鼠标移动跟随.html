@@ -11,6 +11,11 @@
 		}
 		body{
 			text-align: center;
+			/*让页面元素不被选中，IE9不支持*/
+			-webkit-user-select:none; 
+			-moz-user-select:none; 
+			-ms-user-select:none; 
+			user-select:none;
 		}
 		input[type="button"]{
 			font-size: 24px;
@@ -31,8 +36,8 @@
 	</style>
 </head>
 <body onselectstart="return false;">
-	<input type="button" name="btn1" value="位置移动" onselectstart="return false;">
-	<input type="button" name="btn2" value="轨迹移动" onselectstart="return false;">
+	<input type="button" name="btn1" value="位置移动"">
+	<input type="button" name="btn2" value="轨迹移动"">
 	<div id="box"></div>
 
 	<script type="text/javascript">
