@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>鼠标移动跟随</title>
+	<style type="text/css">
+		/*reset*/
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		body{
+			text-align: center;
+		}
+		input[type="button"]{
+			font-size: 24px;
+		}
+		/*button状态*/
+		.active{
+			background-color: red;
+		}
+		/*box样式*/
+		#box{
+			position: absolute;
+			width: 100px;
+			height: 100px;
+			border-radius: 50px;
+			background-image: url(imgs/kong.jpg);
+			background-size: 100px 100px;
+		}
+	</style>
+</head>
+<body onselectstart="return false;">
+	<input type="button" name="btn1" value="位置移动" onselectstart="return false;">
+	<input type="button" name="btn2" value="轨迹移动" onselectstart="return false;">
+	<div id="box"></div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var box = document.getElementById('box');
+			var inputs = document.getElementsByTagName('input');
+
+			inputs[0].onclick = function(event){
+				this.setAttribute('class','active');
+				inputs[1].setAttribute('class','');				
+
+				// 取消冒泡
+				event.cancelBubble = true;
+
+				clearEvent();
+
+				document.onclick = function(event){
+					var event = event || window.event;
+					startMove(event.clientX,event.clientY);
+				}				
+			};
+
+			// 取消冒泡
+			inputs[0].onmousedown = function(event){
+				event.cancelBubble = true;
+			};
+			inputs[0].onmouseup = function(event){
+				event.cancelBubble = true;
+			}
+			inputs[1].onmousedown = function(event){
+				event.cancelBubble = true;
+			};
+			inputs[1].onmouseup = function(event){
+				event.cancelBubble = true;
+			}
+			inputs[1].onclick = function(event){
+				this.setAttribute('class','active');
+				inputs[0].setAttribute('class','');
+				
+				event.cancelBubble = true;
+				// clearEvent要在取消冒泡之后
+				clearEvent();
+				var pos = [];
+				var down = false;
+
+				document.onmousedown = function(){
+					pos = [];
+					down = true;
+					document.getElementsByTagName('body')[0].cursor = 'crosshair';
+				}
+				document.onmousemove = function(event){
+					var event = event || window.event;
+					down && pos.push({x: event.clientX,y: event.clientY});
+					// console.log({x: event.clientX,y: event.clientY});
+				}
+				document.onmouseup = function(){
+					down = false;
+					console.log(pos);
+					for(var i = 0;i < pos.length;i++){
+						// var _i = i;
+						// 变量i是变化的
+						(function(_i){
+							setTimeout(function(){
+								console.log(_i);
+								box.style.top = pos[_i].y - 50 + 'px';
+								box.style.left = pos[_i].x - 50 + 'px';
+							},30*i + 30);
+						})(i);
+						
+					}
+				}
+			}
+
+			function startMove(x,y){
+				var boxX = box.offsetLeft;
+				var boxY = box.offsetTop;
+				var dx = (boxX - x + 50)/5;
+				var dy = (boxY - y + 50)/5;
+				for(var i = 0;i < 5;i++){
+					setTimeout(function(){
+						box.style.top = box.offsetTop - dy + 'px';
+						box.style.left = box.offsetLeft - dx + 'px';
+					},300*i + 300)
+				}				
+			}
+			function clearEvent(){
+				document.onclick = null;
+				document.onmousedown = null;
+				document.onmouseup = null;
+				document.onmousemove = null;
+			}
+		}
+	</script>
+</body>
+</html>
