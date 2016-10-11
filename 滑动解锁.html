@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>滑动解锁</title>
+	<style type="text/css">
+		/*reset*/
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		#phone{
+			position: relative;
+			width: 296px;
+			height: 526px;
+			margin: 0 auto;
+			background-color: #999;
+		}
+		#lock{
+			position: absolute;
+			top: 450px;
+			left: 7px;
+			width: 280px;
+			height: 50px;
+			padding: 1px;
+			border-radius: 25px;
+			background-color: #000;
+		}
+		#lock span{
+			position: absolute;
+			width: 50px;
+			height: 50px;
+			border-radius: 25px;
+			background-image: url(imgs/kong.jpg);
+			background-size: 50px 50px;
+		}
+	</style>
+</head>
+<body>
+	<div id="phone">
+		<div id="lock"><span></span></div>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var phone = document.getElementById('phone');
+			var lock = document.getElementById('lock');
+			var slide = lock.getElementsByTagName('span')[0];
+
+			// 预加载背景图片，没有其他作用
+			var BGimg = document.createElement('img');
+			BGimg.src = 'imgs/slide.jpg';
+
+			slide.style.cursor = 'pointer';
+			/*
+			slide.onmouseover = function(){
+				// this.style.cursor = 'pointer';
+				phone.style.cursor = 'pointer';
+			}
+			*/
+			var slideX = slide.offsetLeft;
+
+			slide.onmousedown = function(e){
+				var event = e || window.event;				
+				var dx = event.clientX - slideX;
+
+				slide.onmousemove = function(e){
+					var event = e || window.event;
+					setPos(event.clientX,dx,slideX);
+				};
+			};
+			slide.onmouseup = function(e){
+				var event = e || window.event;
+				slide.onmousemove = null;
+				backPos();							
+			}
+
+			// 设置位置函数
+			function setPos(x,dx,slideX){
+				console.log(slideX < x - slide.offsetLeft - dx);
+				(slideX < x - dx) && (x - dx < slideX + 230) && (slide.style.left = x - slideX - dx - 1 + 'px');
+			}
+			function BGchange(){
+				phone.style.backgroundImage = 'url(imgs/slide.jpg)';
+			}
+			// BGchange();
+			// 
+			function backPos(){
+				if(slide.offsetLeft < slideX){
+					slide.style.left = 0;
+					return;
+				}else if(slide.offsetLeft < slideX + 115){
+					slide.style.left = parseInt(slide.style.left) - 2 + 'px';
+					var timer = setTimeout(backPos,10);
+				}else if(slide.offsetLeft < slideX + 230){
+					slide.style.left = parseInt(slide.style.left) + 2 + 'px';
+					var timer = setTimeout(backPos,10);
+				}else{
+					slide.style.left = '230px';
+					lock.style.display = 'none';
+					BGchange();	
+				}
+			}
+		};
+	</script>
+</body>
+</html>
