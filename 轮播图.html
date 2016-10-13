@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>轮播图</title>
+	<style type="text/css">
+		/*清除默认样式*/
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		ul{
+			list-style: none;
+		}
+		body{
+			background: #000;
+		}
+		/*轮播图样式*/
+		#box{
+			position: relative;
+			width: 526px;
+			height: 298px;
+			margin: 10px auto;
+			overflow: hidden;
+		}
+		#box .list ul{
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 2630px;
+			height: 296px;
+		}
+		#box .list ul li{
+			float: left;
+		}
+		#box .btns{
+			position: absolute;
+			bottom: 0;
+			left: 0;
+		}
+		#box .btns li{
+			float: left;
+			width: 20px;
+			height: 20px;
+			border: 1px solid #000;
+			border-radius: 10px;
+			color: #fff;
+			text-align: center;
+			background-color: #000;
+		}
+		#box .btns li.now{
+			font-weight: 700;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div class="list">
+			<ul>
+				<li><img src="imgs/lb.jpg" alt=""></li>
+				<li><img src="imgs/lb.jpg" alt=""></li>
+				<li><img src="imgs/lb.jpg" alt=""></li>
+				<li><img src="imgs/lb.jpg" alt=""></li>
+				<li><img src="imgs/lb.jpg" alt=""></li>
+			</ul>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			// 获取节点对象
+			var oBox = document.getElementById('box');
+			var oUl = oBox.getElementsByTagName('ul')[0];
+			var aLi = oUl.getElementsByTagName('li');
+			
+			// 图片轮播
+			var autoTimer = null;
+			var index = 0;
+			
+			// 轮播定时器
+			autoTimer = setInterval(function(){
+				slide(index);
+				if(index == 4){
+					index = 0;
+				}else{
+					index++;
+				}
+			},1000);
+
+			// 鼠标悬停时候的取消轮播
+			oBox.onmouseover = function(){
+				clearInterval(autoTimer);
+			};
+			// 鼠标离开时候继续轮播
+			oBox.onmouseout = function(){
+				// index--;
+				autoTimer = setInterval(function(){
+					slide(index);
+					if(index == 4){
+						index = 0;
+					}else{
+						index++;
+					}
+				},1000);
+			};
+
+			// 创建控制按钮
+			var frag = document.createDocumentFragment();
+			var _oUl = document.createElement('ul');
+			// _oUl.className = 'btns';这种方法可行
+			_oUl.setAttribute('class','btns');
+
+			for(var i = 0;i < aLi.length;i++){
+				var _Li = document.createElement('li');
+				_Li.innerHTML = i + 1;
+				_Li.index = i;
+				_Li.onmouseover = function(){
+					this.className = 'now';
+				};
+				_Li.onmouseout = function(){
+					this.className = '';
+				};
+				_Li.onclick = function(){
+					index = this.index;
+					slide(index);
+				};
+				frag.appendChild(_Li);
+			}
+			_oUl.appendChild(frag);
+			oBox.appendChild(_oUl);
+			
+			// 轮播函数
+			function slide(index){				
+				// 错误方法
+				/*
+				var slideTimer = null;
+				
+				(function(){
+					var _dis = oBox.offsetLeft - aLi[index].offsetLeft;
+					var speed = _dis/5;
+					
+					var slideTimer = setTimeout(function(){
+						if(_dis != 0){
+							oUl.style.left = oUl.offsetLeft - oBox.offsetLeft + speed + 'px';
+							setTimeout(arguments.callee,30);
+						}
+					},30);
+				})();
+				*/	
+				(function(){
+					// offsetLeft 获取的是相对于父对象的左边距
+					
+					var _dis = oUl.offsetLeft + index * (aLi[index].offsetWidth);
+
+					//这里速度的取值很巧妙，目的是让速度不直接等于0就不等于0 
+					var speed = _dis > 0 ? Math.ceil(_dis/5) : Math.floor(_dis/5);
+					console.log(_dis);
+					
+					if(_dis != 0){
+						oUl.style.left = oUl.offsetLeft - speed + 'px';
+						setTimeout(arguments.callee,30);
+					}
+				})();				
+			}
+
+		};
+	</script>
+</body>
+</html>
