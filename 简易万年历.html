@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>简易万年历</title>
+	<style type="text/css">
+		.container{
+			width: 260px;
+			height: 260px;
+			margin: 10px auto;
+			background-color: #ddd;
+		}
+		#mouth{
+			display: -webkit-flex;
+			display: flex;
+			flex-wrap: wrap;
+			padding: 5px;
+			/*justify-content: space-around;*/
+		}
+		#mouth div{
+			width: 52px;
+			height: 52px;
+			margin: 5px;
+			background: #000;
+			color: #fff;
+			line-height: 52px;
+			text-align: center;
+		}
+		#mouth .current{
+			background: #fff;
+			color: #000;
+		}
+		#note{
+			margin: 5px 10px;
+			background: #fff;
+			height: 50px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div id="mouth">
+			<!-- 使用table实现 -->
+			<div>1</div>
+			<div>2</div>
+			<div>3</div>
+			<div>4</div>
+			<div>5</div>
+			<div>6</div>
+			<div>7</div>
+			<div>8</div>
+			<div>9</div>
+			<div>10</div>
+			<div>11</div>
+			<div>12</div>
+		</div>
+		<div id="note"></div>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var oMouth = document.getElementById('mouth');
+			var oNote = document.getElementById('note');
+			var aNum = oMouth.getElementsByTagName('div');
+
+			var note = [1,2,3,4,5,6,7,8,9,10,11,12];
+			for(var i = 0;i < aNum.length;i++){
+				aNum[i].index = i;
+				aNum[i].onmouseover = function(){
+					for(var j = 0;j < aNum.length;j++){
+						aNum[j].className = '';
+					}
+					this.className = 'current';
+					oNote.innerHTML = note[this.index];
+				}
+			}
+		};
+	</script>
+</body>
+</html>

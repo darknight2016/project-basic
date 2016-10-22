@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>网页换肤</title>
+	<link rel="stylesheet" type="text/css" href="styles/red.css">
+	<style type="text/css">
+		/*reset.css*/
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		ul,li{
+			list-style: none;
+		}
+		a{
+			text-decoration: none;
+			color: #fff;
+		}
+		/*container*/
+		.container{
+			width: 500px;
+			margin: 0 auto;
+		}
+		.container .nav ul{
+			overflow: hidden;
+		}
+		.container .nav ul li{
+			float: left;
+			width: 80px;
+			height: 20px;
+			border: 1px solid #fff;
+			text-align: center;
+		}
+		/*对表单的样式没有效果*/
+		input[value='red']{
+			border: 2px solid #f00;
+			background-color: red;
+		}
+		/*换肤样式*/
+		#red .nav li{
+			background-color: red;
+		}
+		#green .nav li{
+			background-color: green;
+		}
+		#blue .nav li{
+			background-color: blue;
+		}
+
+		/*btn*/
+		#btn{
+			overflow: hidden;
+		}
+		#btn li{
+			float: left;
+			width: 20px;
+			height: 20px;
+			margin: 2px;
+			background-color: yellow;
+		}
+	</style>
+</head>
+<body id="red">	
+	<div class="container">
+		<form action="">
+			<input type="radio" name="skin" value="red" checked="checked">
+			<input type="radio" name="skin" value="green">
+			<input type="radio" name="skin" value="blue">
+		</form>
+		<ul id="btn">
+			<li id="red"></li>
+			<li id="green"></li>
+			<li id="blue"></li>
+		</ul>
+		<div class="nav">
+			<ul>
+				<li><a href="javascript:;">新闻</a></li>
+				<li><a href="javascript:;">娱乐</a></li>
+				<li><a href="javascript:;">体育</a></li>
+				<li><a href="javascript:;">电影</a></li>
+				<li><a href="javascript:;">音乐</a></li>
+				<li><a href="javascript:;">旅游</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var oBody = document.getElementsByTagName('body')[0];
+			var oForm = document.getElementsByTagName('form')[0];
+			var aInput = oForm.getElementsByTagName('input');
+			oForm.onclick = function(e){
+				// e.target.checked && oBody.id = e.target.value;
+				if(e.target.checked){
+					// 不建议直接修改元素id
+					console.log(oBody.id);
+					oBody.setAttribute('id',e.target.value);
+				}
+			};
+
+
+			// css样式表换肤
+			var oLink = document.getElementsByTagName('link')[0];
+			var oBtn = document.getElementById('btn');
+			var aLi = btn.getElementsByTagName('li');
+			for(var i = 0;i < aLi.length;i++){
+				aLi[i].index = i;
+				aLi[i].onclick = function(){
+					for(var p in aLi){
+						aLi[p].className = '';
+					}
+					oLink['href'] = 'styles/' + this.id + '.css';
+				};
+			}
+		};
+	</script>
+</body>
+</html>

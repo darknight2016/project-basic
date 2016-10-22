@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>js控制div</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		#container{
+			margin: 0 auto;
+			padding: 10px;
+			/*margin居中需要设置宽度*/
+			width: 200px;
+			height: 500px;
+			text-align: center;
+		}
+		#box{
+			background-color: #000;
+			margin: 20px auto;
+			width: 100px;
+			height: 100px;
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<button>变宽</button>
+		<button>变高</button>
+		<button>变色</button>
+		<button>隐藏</button>
+		<button>重置</button>
+		<div id="box"></div>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var oContainer = document.getElementById('container');
+			var oBox = document.getElementById('box');
+			var aBtn = oContainer.getElementsByTagName('button');
+			/*
+			aBtn[0].onclick = function(){
+				oBox.style.width = '150px';
+			};
+			aBtn[1].onclick = function(){
+				oBox.style.height = '150px';
+			};
+			aBtn[2].onclick = function(){
+				oBox.style.backgroundColor = '#f00';
+			};
+			aBtn[3].onclick = function(){
+				oBox.style.display = 'none';
+			};
+			aBtn[4].onclick = function(){
+				oBox.style.width = '100px';
+				oBox.style.height = '100px';
+				oBox.style.backgroundColor = '#000';
+				oBox.style.display = 'block';
+			};
+			*/
+
+			// 事件委托
+			oContainer.onclick = function(e){
+				// console.log(e.target);
+				switch(e.target){
+					case aBtn[0]:
+						oBox.style.width = '150px';
+						break;
+					case aBtn[1]:
+						oBox.style.height = '150px';
+						break;
+					case aBtn[2]:
+						oBox.style.backgroundColor = '#f00';
+						break;
+					case aBtn[3]:
+						oBox.style.display = 'none';
+						break;
+					case aBtn[4]:
+						console.log(oBox.style.cssText);
+						// 重置css样式的方法
+						oBox.style.cssText = '';
+						/*
+						oBox.style.width = '100px';
+						oBox.style.height = '100px';
+						oBox.style.backgroundColor = '#000';
+						oBox.style.display = 'block';
+						*/
+						break;
+					default:
+						break;
+				}
+			};
+
+			// 第三种方案
+			var changeAttr = function(obj,attr,value){
+				obj.style[attr] = value;
+			};
+			var attrs = ['width','height','background','display','cssText'];
+			var values = ['200px','200px','red','none',''];
+			for(var i = 0;i < aBtn.length;i++){
+				aBtn[i].index = i;
+				aBtn[i].onclick = function(){
+					/*
+					this.index == aBtn.length && oBox.style.cssText = '';
+					*/
+					changeAttr(oBox,attrs[this.index],values[this.index]);
+				}
+			}
+		};
+	</script>
+</body>
+</html>

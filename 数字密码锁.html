@@ -2,11 +2,108 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>数字密码锁</title>
+	<title>密码锁</title>
+	<style type="text/css">
+		.container{
+			width: 260px;
+			height: 260px;
+			margin: 10px auto;
+			background-color: #ddd;
+		}
+		#num{
+			display: -webkit-flex;
+			display: flex;
+			flex-wrap: wrap;
+			padding: 5px;
+			/*justify-content: space-around;*/
+		}
+		#num div{
+			width: 52px;
+			height: 52px;
+			margin: 5px;
+			background: #000;
+			color: #fff;
+			line-height: 52px;
+			text-align: center;
+			font-weight: 700;
+			font-size: 20px;
+		}
+		#num #enter{
+			width: 114px
+		}
 
+		#num .current{
+			background: #fff;
+			color: #000;
+		}
+		#note{
+			margin: 10px;
+			padding: 5px 0;
+			background: #fff;
+		}
+	</style>
 </head>
 <body>
-	<!-- 密码5201314 -->
-	
+	<div class="container">
+		<div id="num">
+			<!-- 使用table实现 -->
+			<div>1</div>
+			<div>2</div>
+			<div>3</div>
+			<div>4</div>
+			<div>5</div>
+			<div>6</div>
+			<div>7</div>
+			<div>8</div>
+			<div>9</div>
+			<div>0</div>
+			<div id="enter">确认</div>
+		</div>
+		<div id="note">
+			您输入的密码是：<span></span>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var oNum = document.getElementById('num');
+			var aNum = oNum.getElementsByTagName('div');
+			var oNote = document.getElementById('note');
+			var oSpan = oNote.getElementsByTagName('span')[0];
+
+			for(var i = 0;i < aNum.length - 1;i++){
+				aNum[i].index = i;
+				aNum[i].onmousedown = function(){
+					this.className = 'current';
+					oSpan.innerHTML += (this.index + 1)%10;
+				};
+				aNum[i].onmouseup = function(){
+					this.className = '';
+				};
+			}
+			aNum[10].onmousedown = function(){
+				this.className = 'current';
+				var _pwd = oSpan.innerHTML;				
+				
+				if(_pwd == '5201314'){
+					alert('密码正确');
+				}else{
+					oSpan.innerHTML = '';
+					// alert('密码错误，请重新输入');
+				}
+
+				var that = this;
+				setTimeout(function(){
+					that.className = '';
+				},100);
+				
+			};
+			/*
+			aNum[10].onmouseup = function(){
+				this.className = '';
+			};
+			*/
+		};
+	</script>
 </body>
 </html>

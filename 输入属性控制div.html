@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>输入属性控制div</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		form{
+			width: 300px;
+			margin: 0 auto;
+			/*font-size: 0;*/
+		}
+		body{
+			text-align: center;
+		}
+		#box{
+			width: 200px;
+			height: 200px;
+			margin: 0 auto;
+			background-color: #000;
+		}
+	</style>
+</head>
+<body>
+	<form action="">
+		<br>
+		<label>属性名:<input id="pro" type="text" value="background"></label>
+		<br><br>
+		<label>属性值:<input id="val" type="text" value="red"></label>
+	</form>
+	<button id="confirm">确定</button>
+	<button id="reset">重置</button>
+	<div id="box">在上方输入框输入"属性名"及"属性值"，点击确定按钮查看效果。</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var oPro = document.getElementById('pro');
+			var oVal = document.getElementById('val');
+			var oBox = document.getElementById('box');
+			var oConfirm = document.getElementById('confirm');
+			var oReset = document.getElementById('reset');
+
+			oConfirm.onclick = function(){
+				oBox.style[oPro.value] = oVal.value;
+			};
+			oReset.onclick = function(){
+				// oBox.style[cssText] = '';
+				oBox.removeAttribute('style');
+			}
+		};
+	</script>
+</body>
+</html>

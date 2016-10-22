@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>弹出层效果</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		body{
+			text-align: center;
+		}
+		.noshow{
+			display: none;
+		}
+		.show{
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			background-color: #ccc;
+		}
+		#inner{
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+			width: 30%;
+			height: auto;
+			background-color: #fff;
+		}
+	</style>
+</head>
+<body>
+	<button>弹出层</button>
+	<div id="outer" class="noshow">
+		<div id="inner">
+			<div id="close">close</div>
+		</div>		
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var oOuter = document.getElementById('outer');
+			var oInner = document.getElementById('inner');
+			var oClose = document.getElementById('close');
+			var oBtn = document.getElementsByTagName('button')[0];
+
+			console.log(oBtn);
+			oBtn.onclick = function(){
+				console.log(oOuter.className);
+				oOuter.className = 'show';
+			};
+			oClose.onclick = function(){
+				oOuter.className = 'noshow';
+			}
+		};
+	</script>
+</body>
+</html>

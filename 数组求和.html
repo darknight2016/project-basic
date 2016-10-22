@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>数组求和</title>
+
+</head>
+<body>
+	<label><input id="num" type="text" value="1,2,3,4,5,6,7,8"><span>输入数字求和，数字之间用半角','号隔开</span></label>
+	<p><button id="sum">求和</button></p>
+	<strong id="show"></strong>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var oNum = document.getElementById('num');
+			var oSum = document.getElementById('sum');
+			var oShow = document.getElementById('show');
+
+			oNum.onkeyup = function(){
+				this.value = this.value.replace(/[^\d,]+/,'');
+			};
+			oSum.onclick = function(){
+				var sum = 0;
+				var _s = oNum.value.split(',');
+				for(var i in _s){
+					sum += parseInt(_s[i]);
+				}
+				oShow.innerHTML = sum;
+			};
+		};
+	</script>
+</body>
+</html>

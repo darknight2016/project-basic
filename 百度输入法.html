@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>百度输入法</title>
+	<style type="text/css">
+		/*reset*/
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		ul{
+			list-style: none;
+		}
+		#list{
+			display: none;
+			width: 40px;
+			height: 60px;
+			border: 1px solid #000;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<button id="btn">输入法</button>
+		<ul id="list">
+			<li>百度</li>
+			<li>搜狗</li>
+			<li id="close">关闭</li>
+		</ul>
+	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var oBtn = document.getElementById('btn');
+			var oClose = document.getElementById('close');
+			var oList = document.getElementById('list');
+
+			oBtn.onclick = function(){	
+				oList.style.display = oList.style.display == 'block' ? 'none' : 'block';
+			};
+			oClose.onclick = function(){
+				oList.style.display = 'none';
+			}
+		};
+	</script>
+</body>
+</html>
