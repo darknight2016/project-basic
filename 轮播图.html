@@ -78,21 +78,26 @@
 			var index = 0;
 			
 			// 轮播定时器
-			autoTimer = setInterval(function(){
-				slide(index);
-				if(index == 4){
-					index = 0;
-				}else{
-					index++;
-				}
-			},1000);
-
+			(function(){
+				console.log('start');
+				autoTimer = setInterval(function(){
+					slide(index);
+					if(index == 4){
+						index = 0;
+					}else{
+						index++;
+					}
+				},1000);
+			})()
+			
 			// 鼠标悬停时候的取消轮播
 			oBox.onmouseover = function(){
 				clearInterval(autoTimer);
+				console.log('end');
 			};
 			// 鼠标离开时候继续轮播
 			oBox.onmouseout = function(){
+				console.log('start');
 				// index--;
 				autoTimer = setInterval(function(){
 					slide(index);
@@ -130,6 +135,7 @@
 			oBox.appendChild(_oUl);
 			
 			// 轮播函数
+			var slideTimer = null;
 			function slide(index){				
 				// 错误方法
 				/*
@@ -147,20 +153,31 @@
 					},30);
 				})();
 				*/	
+				/*
+				方法1
 				(function(){
 					// offsetLeft 获取的是相对于父对象的左边距
-					
 					var _dis = oUl.offsetLeft + index * (aLi[index].offsetWidth);
 
 					//这里速度的取值很巧妙，目的是让速度不直接等于0就不等于0 
 					var speed = _dis > 0 ? Math.ceil(_dis/5) : Math.floor(_dis/5);
-					console.log(_dis);
 					
 					if(_dis != 0){
 						oUl.style.left = oUl.offsetLeft - speed + 'px';
 						setTimeout(arguments.callee,30);
 					}
-				})();				
+				})();
+				*/
+				
+				var _width = aLi[0].offsetWidth;
+				clearInterval(slideTimer);
+				slideTimer = setInterval(function(){
+					var _dis = oUl.offsetLeft + index * _width;
+					var speed = _dis > 0 ? Math.ceil(_dis/5) : Math.floor(_dis/5);
+					if(_dis != 0){
+						oUl.style.left = oUl.offsetLeft - speed + 'px';
+					}
+				},30);
 			}
 
 		};

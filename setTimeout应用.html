@@ -4,7 +4,47 @@
 	<meta charset="UTF-8">
 	<title>setTimeout应用</title>
 	<style type="text/css">
-
+		/*reset*/
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		a{
+			color: #fff;
+			text-decoration: none;
+		}
+		ul{
+			list-style: none;
+		}
+		/*nav*/
+		.nav{
+			position: relative;
+			width: 910px;
+			margin: 10px auto;
+			background-color: blue;
+		}
+		.nav > ul{
+			overflow: hidden;
+		}
+		.nav > ul > li{
+			float: left;
+			width: 110px;
+			text-align: center;
+		}
+		/*subnav*/
+		.subnav{
+			position: absolute;
+			display: none;
+			width: 420px;
+		}
+		.subnav > ul{
+			overflow: hidden;
+		}
+		.subnav > ul > li{
+			float: left;
+			width: 70px;
+			background-color: green;
+		}
 	</style>
 </head>
 <body>
@@ -116,5 +156,11 @@
 			</li>
 		</ul>
 	</div>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			
+		};
+	</script>
 </body>
 </html>
